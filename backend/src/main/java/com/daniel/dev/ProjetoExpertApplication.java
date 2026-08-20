@@ -1,4 +1,4 @@
-package com.daniel.dev.projeto_expert;
+package com.daniel.dev;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

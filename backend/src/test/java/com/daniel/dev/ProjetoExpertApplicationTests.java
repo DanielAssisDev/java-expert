@@ -1,4 +1,4 @@
-package com.daniel.dev.projeto_expert;
+package com.daniel.dev;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
