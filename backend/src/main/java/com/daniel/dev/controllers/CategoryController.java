@@ -5,13 +5,8 @@ import com.daniel.dev.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +23,10 @@ public class CategoryController {
             @RequestParam(name = "size", defaultValue = "12") Integer size
     ){
         return ResponseEntity.ok(categoryService.findAll(PageRequest.of(page, size)));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(categoryService.findById(id));
     }
 }
