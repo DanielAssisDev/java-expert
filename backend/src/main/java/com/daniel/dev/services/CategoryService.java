@@ -31,12 +31,22 @@ public class CategoryService {
     @Transactional
     public CategoryDTO insert(CategoryDTO categoryDTO){
         Category category = new Category();
-        copyDTOToEntity(category, categoryDTO);
-        categoryRepository.save(category);
-        return new CategoryDTO(category);
+        copyDTOToEntity(categoryDTO, category);
+        return new CategoryDTO(categoryRepository.save(category));
     }
 
-    public void copyDTOToEntity(Category category, CategoryDTO categoryDTO){
+    @Transactional
+    public CategoryDTO update (Long id, CategoryDTO categoryDTO){
+        try {
+            Category category = categoryRepository.getReferenceById(id);
+            copyDTOToEntity(categoryDTO, category);
+            return new CategoryDTO(categoryRepository.save(category));
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
+    }
+
+    public void copyDTOToEntity(CategoryDTO categoryDTO, Category category){
         category.setName(categoryDTO.getName());
     }
 }
