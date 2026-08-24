@@ -1,6 +1,7 @@
 package com.daniel.dev.services;
 
 import com.daniel.dev.dto.CategoryDTO;
+import com.daniel.dev.entities.Category;
 import com.daniel.dev.repositories.CategoryRepository;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,4 +28,15 @@ public class CategoryService {
         return new CategoryDTO(categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado")));
     }
 
+    @Transactional
+    public CategoryDTO insert(CategoryDTO categoryDTO){
+        Category category = new Category();
+        copyDTOToEntity(category, categoryDTO);
+        categoryRepository.save(category);
+        return new CategoryDTO(category);
+    }
+
+    public void copyDTOToEntity(Category category, CategoryDTO categoryDTO){
+        category.setName(categoryDTO.getName());
+    }
 }
