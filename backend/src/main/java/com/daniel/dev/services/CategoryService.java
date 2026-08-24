@@ -3,8 +3,10 @@ package com.daniel.dev.services;
 import com.daniel.dev.dto.CategoryDTO;
 import com.daniel.dev.entities.Category;
 import com.daniel.dev.repositories.CategoryRepository;
+import com.daniel.dev.services.exceptions.DatabaseException;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -43,6 +45,18 @@ public class CategoryService {
             return new CategoryDTO(categoryRepository.save(category));
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado");
+        }
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete (Long id){
+        if(!categoryRepository.existsById(id)){
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
+        try {
+            categoryRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Violação da integridade referencial");
         }
     }
 

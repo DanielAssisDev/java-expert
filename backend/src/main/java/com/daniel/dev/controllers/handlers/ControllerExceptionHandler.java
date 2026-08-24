@@ -1,6 +1,7 @@
 package com.daniel.dev.controllers.handlers;
 
 import com.daniel.dev.dto.CustomErrorDTO;
+import com.daniel.dev.services.exceptions.DatabaseException;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,13 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<CustomErrorDTO> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<CustomErrorDTO> database(DatabaseException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
