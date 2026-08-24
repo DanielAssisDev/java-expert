@@ -5,6 +5,7 @@ import com.daniel.dev.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,10 +21,12 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<Page<CategoryDTO>> findAll(
-            @RequestParam(name = "page", defaultValue = "0") Integer page,
-            @RequestParam(name = "size", defaultValue = "12") Integer size
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction,
+            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy
     ){
-        return ResponseEntity.ok(categoryService.findAll(PageRequest.of(page, size)));
+        return ResponseEntity.ok(categoryService.findAll(PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy)));
     }
 
     @GetMapping("/{id}")
