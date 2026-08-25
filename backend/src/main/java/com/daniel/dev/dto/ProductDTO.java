@@ -2,7 +2,6 @@ package com.daniel.dev.dto;
 
 import com.daniel.dev.entities.Category;
 import com.daniel.dev.entities.Product;
-import jakarta.persistence.Column;
 
 import java.time.Instant;
 import java.util.ArrayList;

@@ -1,8 +1,9 @@
 package com.daniel.dev.services;
 
+import com.daniel.dev.dto.CategoryDTO;
 import com.daniel.dev.dto.ProductDTO;
+import com.daniel.dev.entities.Category;
 import com.daniel.dev.entities.Product;
-import com.daniel.dev.repositories.ProductRepository;
 import com.daniel.dev.repositories.ProductRepository;
 import com.daniel.dev.services.exceptions.DatabaseException;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
@@ -14,11 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
-
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable) {
@@ -27,44 +29,50 @@ public class ProductService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public ProductDTO findById(Long id) {
-        return new ProductDTO(productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado")));
+        Optional<Product> product = productRepository.getProductById(id);
+        return new ProductDTO(product.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado")), product.get().getCategories());
     }
 
-//    @Transactional
-//    public ProductDTO insert(ProductDTO productDTO){
-//        Product product = new Product();
-//        copyDTOToEntity(productDTO, product);
-//        return new ProductDTO(productRepository.save(product));
-//    }
-//
-//    @Transactional
-//    public ProductDTO update (Long id, ProductDTO productDTO){
-//        try {
-//            Product product = productRepository.getReferenceById(id);
-//            copyDTOToEntity(productDTO, product);
-//            return new ProductDTO(productRepository.save(product));
-//        } catch (ResourceNotFoundException e) {
-//            throw new ResourceNotFoundException("Recurso não encontrado");
-//        }
-//    }
-//
-//    @Transactional(propagation = Propagation.SUPPORTS)
-//    public void delete (Long id){
-//        if(!productRepository.existsById(id)){
-//            throw new ResourceNotFoundException("Recurso não encontrado");
-//        }
-//        try {
-//            productRepository.deleteById(id);
-//        } catch (DataIntegrityViolationException e){
-//            throw new DatabaseException("Violação da integridade referencial");
-//        }
-//    }
-//
-//    public void copyDTOToEntity(ProductDTO productDTO, Product product){
-//        product.setName(productDTO.getName());
-//        product.setDescription(productDTO.getDescription());
-//        product.setImgUrl(productDTO.getImgUrl());
-//        product.setPrice(productDTO.getPrice());
-//        product
-//    }
+    @Transactional
+    public ProductDTO insert(ProductDTO productDTO){
+        Product product = new Product();
+        copyDTOToEntity(productDTO, product);
+        return new ProductDTO(productRepository.save(product));
+    }
+
+    @Transactional
+    public ProductDTO update (Long id, ProductDTO productDTO){
+        try {
+            Product product = productRepository.getReferenceById(id);
+            copyDTOToEntity(productDTO, product);
+            return new ProductDTO(productRepository.save(product));
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete (Long id){
+        if(!productRepository.existsById(id)){
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
+        try {
+            productRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Violação da integridade referencial");
+        }
+    }
+
+    public void copyDTOToEntity(ProductDTO productDTO, Product product){
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setImgUrl(productDTO.getImgUrl());
+        product.setPrice(productDTO.getPrice());
+        product.getCategories().clear();
+        for(CategoryDTO categoryDTO : productDTO.getCategories()){
+            Category category = new Category();
+            category.setId(categoryDTO.getId());
+            product.getCategories().add(category);
+        }
+    }
 }
