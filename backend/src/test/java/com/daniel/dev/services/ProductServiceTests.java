@@ -1,0 +1,66 @@
+package com.daniel.dev.services;
+
+import com.daniel.dev.repositories.ProductRepository;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.mockito.Mockito.times;
+
+@ExtendWith(SpringExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+public class ProductServiceTests {
+    @InjectMocks
+    private ProductService productService;
+
+    @Mock
+    private ProductRepository repository;
+
+    private Long id;
+    private Long certainlyNotExistingId;
+    private Long dependentId;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        id = 25L;
+        certainlyNotExistingId = 10000L;
+        dependentId = 3L;
+
+        Mockito.when(repository.existsById(id)).thenReturn(true);
+        Mockito.when(repository.existsById(certainlyNotExistingId)).thenReturn(false);
+        Mockito.when(repository.existsById(dependentId)).thenReturn(true);
+    }
+
+    @AfterEach
+    void tearDown() {
+    }
+
+    @BeforeAll
+    static void beforeAll() {
+    }
+
+    @AfterAll
+    static void afterAll() {
+    }
+
+    @Test
+    public void deleteShouldDoNothingWhenIdExists(){
+        Assertions.assertDoesNotThrow(() -> {
+                productService.delete(id);
+        });
+        Mockito.verify(repository, times(1)).deleteById(id);
+    }
+
+//    @Test
+//    public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist(){
+//        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+//            productService.delete(certainlyNotExistingId);
+//        });
+//        ;
+//    }
+}
