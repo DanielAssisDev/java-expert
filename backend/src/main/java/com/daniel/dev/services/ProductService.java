@@ -4,6 +4,7 @@ import com.daniel.dev.dto.CategoryDTO;
 import com.daniel.dev.dto.ProductDTO;
 import com.daniel.dev.entities.Category;
 import com.daniel.dev.entities.Product;
+import com.daniel.dev.repositories.CategoryRepository;
 import com.daniel.dev.repositories.ProductRepository;
 import com.daniel.dev.services.exceptions.DatabaseException;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
@@ -21,6 +22,9 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable) {
@@ -70,8 +74,7 @@ public class ProductService {
         product.setPrice(productDTO.getPrice());
         product.getCategories().clear();
         for(CategoryDTO categoryDTO : productDTO.getCategories()){
-            Category category = new Category();
-            category.setId(categoryDTO.getId());
+            Category category = categoryRepository.getReferenceById(categoryDTO.getId());
             product.getCategories().add(category);
         }
     }
