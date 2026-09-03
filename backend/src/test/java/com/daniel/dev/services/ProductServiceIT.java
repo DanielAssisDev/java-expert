@@ -52,12 +52,12 @@ public class ProductServiceIT {
         });
     }
 
-//    @Test
-//    public void deleteShouldThrowDatabaseException() {
-//        Assertions.assertThrows(DatabaseException.class, () -> {
-//            productService.delete(dependentId);
-//        });
-//    }
+    @Test
+    public void deleteShouldThrowDatabaseException() {
+        Assertions.assertThrows(DatabaseException.class, () -> {
+            productService.delete(dependentId);
+        });
+    }
 
     @Test
     public void findAllPagedShouldReturnPageWhenPage0Size10() {

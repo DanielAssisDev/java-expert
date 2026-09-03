@@ -9,7 +9,7 @@ import java.time.Instant;
 public class Factory {
 
     public static Product createProduct(){
-        Product product = new Product(1L, "Phone", "Nice phone", 800.0, "https://australopitecus", Instant.now());
+        Product product = new Product(null, "Phone", "Nice phone", 800.0, "https://australopitecus", Instant.now());
         product.getCategories().add(createCategory());
         return product;
     }

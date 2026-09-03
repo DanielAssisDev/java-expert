@@ -36,7 +36,7 @@ public class ProductControllerTests {
     private ObjectMapper objectMapper;
 
     private Long id;
-    private Long certainlyNotExistingId;
+    private Long certainlyNonExistingId;
     private Long dependentId;
     private ProductDTO productDTO;
     private PageImpl<ProductDTO> page;
@@ -44,17 +44,17 @@ public class ProductControllerTests {
     @BeforeEach
     void setUp() throws Exception {
         id = 1L;
-        certainlyNotExistingId = 1000L;
+        certainlyNonExistingId = 1000L;
         dependentId = 3L;
         productDTO = Factory.createProductDTO();
         page = new PageImpl<>(List.of(productDTO));
         when(productService.findAll(ArgumentMatchers.any())).thenReturn(page);
         when(productService.findById(id)).thenReturn(productDTO);
-        when(productService.findById(certainlyNotExistingId)).thenThrow(ResourceNotFoundException.class);
+        when(productService.findById(certainlyNonExistingId)).thenThrow(ResourceNotFoundException.class);
         when(productService.update(id, productDTO)).thenReturn(productDTO);
-        when(productService.update(certainlyNotExistingId, productDTO)).thenThrow(ResourceNotFoundException.class);
+        when(productService.update(certainlyNonExistingId, productDTO)).thenThrow(ResourceNotFoundException.class);
         doNothing().when(productService).delete(id);
-        doThrow(ResourceNotFoundException.class).when(productService).delete(certainlyNotExistingId);
+        doThrow(ResourceNotFoundException.class).when(productService).delete(certainlyNonExistingId);
         doThrow(DatabaseException.class).when(productService).delete(dependentId);
         when(productService.insert(productDTO)).thenReturn(productDTO);
     }
@@ -75,7 +75,7 @@ public class ProductControllerTests {
 
     @Test
     public void findByIdShouldThrowResourseNotFoundExceptionWhenIdDoesNotExist() throws Exception {
-        mockMvc.perform(get("/products/{id}", certainlyNotExistingId)
+        mockMvc.perform(get("/products/{id}", certainlyNonExistingId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -87,12 +87,12 @@ public class ProductControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.name").exists());
+                .andExpect(jsonPath("$.name").value("Phone"));
     }
 
     @Test
     public void updateShouldThrowResourseNotFoundExceptionWhenIdDoesNotExist() throws Exception {
-        mockMvc.perform(put("/products/{id}", certainlyNotExistingId)
+        mockMvc.perform(put("/products/{id}", certainlyNonExistingId)
                 .content(objectMapper.writeValueAsString(productDTO))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -118,7 +118,7 @@ public class ProductControllerTests {
 
     @Test
     public void deleteShouldReturnResourceNotFoundWhenIdDoesNotExist() throws Exception {
-        mockMvc.perform(delete("/products/{id}", certainlyNotExistingId)
+        mockMvc.perform(delete("/products/{id}", certainlyNonExistingId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
