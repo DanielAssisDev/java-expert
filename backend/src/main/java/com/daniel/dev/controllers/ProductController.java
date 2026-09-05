@@ -1,6 +1,7 @@
 package com.daniel.dev.controllers;
 
 import com.daniel.dev.dto.ProductDTO;
+import com.daniel.dev.dto.ProductMinDTO;
 import com.daniel.dev.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
+    public ResponseEntity<Page<ProductMinDTO>> findAll(Pageable pageable){
         return ResponseEntity.ok(productService.findAll(pageable));
     }
 

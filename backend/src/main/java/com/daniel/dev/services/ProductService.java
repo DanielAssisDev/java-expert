@@ -2,6 +2,7 @@ package com.daniel.dev.services;
 
 import com.daniel.dev.dto.CategoryDTO;
 import com.daniel.dev.dto.ProductDTO;
+import com.daniel.dev.dto.ProductMinDTO;
 import com.daniel.dev.entities.Category;
 import com.daniel.dev.entities.Product;
 import com.daniel.dev.repositories.CategoryRepository;
@@ -27,8 +28,8 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable).map(ProductDTO::new);
+    public Page<ProductMinDTO> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable).map(ProductMinDTO::new);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
