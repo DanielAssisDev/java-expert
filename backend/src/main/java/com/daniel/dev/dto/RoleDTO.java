@@ -1,5 +1,7 @@
 package com.daniel.dev.dto;
 
+import com.daniel.dev.entities.Role;
+
 public class RoleDTO {
     private Long id;
     private String authority;
@@ -7,6 +9,11 @@ public class RoleDTO {
     public RoleDTO(Long id, String authority) {
         this.id = id;
         this.authority = authority;
+    }
+
+    public RoleDTO(Role role) {
+        id = role.getId();
+        authority = role.getAuthority();
     }
 
     public RoleDTO() {

@@ -1,10 +1,9 @@
 package com.daniel.dev.dto;
 
 import com.daniel.dev.entities.User;
-import org.springframework.security.core.GrantedAuthority;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class UserDTO {
     private Long id;
@@ -13,7 +12,7 @@ public class UserDTO {
     private String email;
     private String phone;
     private LocalDate birthDate;
-    private List<String> roles = new ArrayList<>();
+    private Set<RoleDTO> roles = new HashSet<>();
 
     public UserDTO(User user) {
         id = user.getId();
@@ -22,9 +21,7 @@ public class UserDTO {
         email = user.getUsername();
         phone = user.getPhone();
         birthDate = user.getBirthDate();
-        for(GrantedAuthority grantedAuthority : user.getAuthorities()){
-            roles.add(grantedAuthority.getAuthority());
-        }
+        user.getRoles().forEach(x -> this.roles.add(new RoleDTO(x)));
     }
 
     public UserDTO() {
@@ -78,11 +75,7 @@ public class UserDTO {
         this.birthDate = birthDate;
     }
 
-    public List<String> getRoles() {
+    public Set<RoleDTO> getRoles() {
         return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
     }
 }

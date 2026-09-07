@@ -5,8 +5,10 @@ import com.daniel.dev.entities.Role;
 import com.daniel.dev.entities.User;
 import com.daniel.dev.projections.UserDetailsProjection;
 import com.daniel.dev.repositories.UserRepository;
+import com.daniel.dev.services.exceptions.DatabaseException;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -16,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -34,6 +37,42 @@ public class UserService implements UserDetailsService {
     public UserDTO findById(Long id) {
         return new UserDTO(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado")));
     }
+
+    @Transactional
+    public UserDTO insert(UserDTO userDTO){
+        User user = new User();
+        copyDTOToEntity(userDTO, user);
+        return new UserDTO(userRepository.save(user));
+    }
+
+    @Transactional
+    public UserDTO update (Long id, UserDTO userDTO){
+        if(!userRepository.existsById(id)){
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
+        User user = userRepository.getReferenceById(id);
+        copyDTOToEntity(userDTO, user);
+        return new UserDTO(userRepository.save(user));
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete (Long id){
+        if(!userRepository.existsById(id)){
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
+        try {
+            userRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Violação da integridade referencial");
+        }
+    }
+
+    public void copyDTOToEntity(UserDTO userDTO, User user){
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setBirthDate(userDTO.getBirthDate());
+        user.setPhone(userDTO.getPhone());}
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
