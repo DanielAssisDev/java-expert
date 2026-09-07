@@ -2,13 +2,12 @@ package com.daniel.dev.dto;
 
 import com.daniel.dev.entities.User;
 import org.springframework.security.core.GrantedAuthority;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO {
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;

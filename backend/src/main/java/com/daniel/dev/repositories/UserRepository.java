@@ -4,6 +4,8 @@ import com.daniel.dev.dto.ClientDTO;
 import com.daniel.dev.dto.UserDTO;
 import com.daniel.dev.entities.User;
 import com.daniel.dev.projections.UserDetailsProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,6 +20,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
             	WHERE UPPER(u.email) LIKE UPPER(CONCAT('%', :email, '%'))
             	""")
     Optional<UserDTO> searchUserAndRolesByEmailLike(String email);
+
+//    @Query(value = "SELECT new com.daniel.dev.dto.UserDTO(u) FROM User u JOIN FETCH u.roles")
+//    Page<UserDTO> searchAllJoinFetch(Pageable pageable);
 
     @Query(value = """
             SELECT new com.daniel.dev.dto.ClientDTO(u) FROM User u

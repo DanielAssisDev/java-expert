@@ -5,7 +5,10 @@ import com.daniel.dev.entities.Role;
 import com.daniel.dev.entities.User;
 import com.daniel.dev.projections.UserDetailsProjection;
 import com.daniel.dev.repositories.UserRepository;
+import com.daniel.dev.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -24,8 +26,13 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public Optional<UserDTO> findByEmail(String email) {
-        return userRepository.searchUserAndRolesByEmailLike(email);
+    public Page<UserDTO> findAll(Pageable pageable){
+        return userRepository.findAll(pageable).map(UserDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO findById(Long id) {
+        return new UserDTO(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado")));
     }
 
     @Override
@@ -56,7 +63,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDTO getMe(){
+    public UserDTO getMe() {
         return new UserDTO(authenticated());
     }
 }
