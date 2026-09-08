@@ -1,6 +1,7 @@
 package com.daniel.dev.controllers;
 
 import com.daniel.dev.dto.UserDTO;
+import com.daniel.dev.dto.UserInsertDTO;
 import com.daniel.dev.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -22,13 +26,35 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable Long id){
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping
+    public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO userDTO) {
+        userDTO = userService.insert(userDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(userDTO.getId()).toUri();
+        return ResponseEntity.created(uri).body(userDTO);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> update (@PathVariable Long id, @RequestBody UserDTO userDTO){
+        return ResponseEntity.ok(userService.update(id, userDTO));
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping(value = "/me")
-    public ResponseEntity<UserDTO> getMe(){
+    public ResponseEntity<UserDTO> getMe() {
         return ResponseEntity.ok(userService.getMe());
     }
 }

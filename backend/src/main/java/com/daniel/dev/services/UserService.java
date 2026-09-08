@@ -1,9 +1,12 @@
 package com.daniel.dev.services;
 
+import com.daniel.dev.dto.RoleDTO;
 import com.daniel.dev.dto.UserDTO;
+import com.daniel.dev.dto.UserInsertDTO;
 import com.daniel.dev.entities.Role;
 import com.daniel.dev.entities.User;
 import com.daniel.dev.projections.UserDetailsProjection;
+import com.daniel.dev.repositories.RoleRepository;
 import com.daniel.dev.repositories.UserRepository;
 import com.daniel.dev.services.exceptions.DatabaseException;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
@@ -16,6 +19,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -28,6 +33,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Transactional(readOnly = true)
     public Page<UserDTO> findAll(Pageable pageable){
         return userRepository.findAll(pageable).map(UserDTO::new);
@@ -39,10 +47,11 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDTO insert(UserDTO userDTO){
+    public UserInsertDTO insert(UserInsertDTO userDTO){
         User user = new User();
         copyDTOToEntity(userDTO, user);
-        return new UserDTO(userRepository.save(user));
+        user.setPassword(passwordEncoder().encode(userDTO.getPassword()));
+        return new UserInsertDTO(userRepository.save(user));
     }
 
     @Transactional
@@ -72,7 +81,11 @@ public class UserService implements UserDetailsService {
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
         user.setBirthDate(userDTO.getBirthDate());
-        user.setPhone(userDTO.getPhone());}
+        user.setPhone(userDTO.getPhone());
+        for(RoleDTO roleDTO : userDTO.getRoles()){
+            user.addRole(roleRepository.getReferenceById(roleDTO.getId()));
+        }
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -103,6 +116,10 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public UserDTO getMe() {
-        return new UserDTO(authenticated());
+        return new UserDTO(authenticated()  );
+    }
+
+    PasswordEncoder passwordEncoder () {
+        return new BCryptPasswordEncoder();
     }
 }
