@@ -1,4 +1,4 @@
-package com.daniel.dev.dto;
+package com.daniel.dev.errors;
 
 import java.time.Instant;
 
@@ -31,4 +31,3 @@ public class CustomErrorDTO {
         return path;
     }
 }
-
