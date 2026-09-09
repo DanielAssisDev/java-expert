@@ -2,8 +2,11 @@ package com.daniel.dev.dto;
 
 import com.daniel.dev.entities.Category;
 import com.daniel.dev.entities.Product;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.*;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,12 +14,20 @@ import java.util.Set;
 
 public class ProductDTO {
     private Long id;
+    @Size(message = "O nome deve ter de 3 a 80 caracteres", min = 3, max = 80)
+    @NotBlank(message = "O nome não pode estar vazio")
     private String name;
+    @Column(columnDefinition = "TEXT")
+    @Size(min = 10, message = "A descrição precisa ter no mínimo 10 caracteres")
+    @NotBlank(message = "A descrição não pode estar vazia")
     private String description;
+    @NotNull(message = "Campo requerido")
+    @Positive(message = "O preço deve ter valor positivo")
     private Double price;
     private String imgUrl;
+    @PastOrPresent(message = "A data do produto não pode ser futura")
     private Instant date;
-
+    @NotEmpty(message = "O produto deve ter ao menos uma categoria")
     private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO() {

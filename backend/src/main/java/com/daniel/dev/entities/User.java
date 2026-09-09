@@ -5,6 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
@@ -22,7 +23,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     private String phone;
-    private LocalDate birthDate;
+    private Instant birthDate;
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -34,7 +35,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String email, String phone, LocalDate birthDate, String password) {
+    public User(Long id, String firstName, String lastName, String email, String phone, Instant birthDate, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -92,11 +93,11 @@ public class User implements UserDetails {
         this.phone = phone;
     }
 
-    public LocalDate getBirthDate() {
+    public Instant getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(Instant birthDate) {
         this.birthDate = birthDate;
     }
 

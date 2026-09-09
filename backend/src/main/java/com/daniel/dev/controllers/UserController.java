@@ -3,6 +3,7 @@ package com.daniel.dev.controllers;
 import com.daniel.dev.dto.UserDTO;
 import com.daniel.dev.dto.UserInsertDTO;
 import com.daniel.dev.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
         return ResponseEntity.ok(userService.findAll(pageable));
@@ -30,18 +32,17 @@ public class UserController {
         return ResponseEntity.ok(userService.findById(id));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO userDTO) {
-        userDTO = userService.insert(userDTO);
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO userDTO) {
+        UserDTO newUserDTO = userService.insert(userDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(userDTO.getId()).toUri();
-        return ResponseEntity.created(uri).body(userDTO);
+                .buildAndExpand(newUserDTO.getId()).toUri();
+        return ResponseEntity.created(uri).body(newUserDTO);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> update (@PathVariable Long id, @RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> update (@PathVariable Long id, @Valid @RequestBody UserDTO userDTO){
         return ResponseEntity.ok(userService.update(id, userDTO));
     }
 

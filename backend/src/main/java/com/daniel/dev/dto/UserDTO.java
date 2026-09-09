@@ -1,17 +1,27 @@
 package com.daniel.dev.dto;
 
 import com.daniel.dev.entities.User;
-import java.time.LocalDate;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
+
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
 public class UserDTO {
     private Long id;
+    @NotBlank(message = "Campo requerido")
+    @Size(min = 3, max = 60, message = "O nome deve ter entre 5 e 60 caracteres")
     private String firstName;
     private String lastName;
+    @NotBlank(message = "Campo requerido")
+    @Email(message = "Favor digitar um email válido")
     private String email;
     private String phone;
-    private LocalDate birthDate;
+    @PastOrPresent(message = "A data do produto não pode ser futura")
+    private Instant birthDate;
     private Set<RoleDTO> roles = new HashSet<>();
 
     public UserDTO(User user) {
@@ -67,11 +77,11 @@ public class UserDTO {
         this.phone = phone;
     }
 
-    public LocalDate getBirthDate() {
+    public Instant getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(Instant birthDate) {
         this.birthDate = birthDate;
     }
 
