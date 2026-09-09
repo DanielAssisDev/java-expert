@@ -3,6 +3,7 @@ package com.daniel.dev.services;
 import com.daniel.dev.dto.RoleDTO;
 import com.daniel.dev.dto.UserDTO;
 import com.daniel.dev.dto.UserInsertDTO;
+import com.daniel.dev.dto.UserUpdateDTO;
 import com.daniel.dev.entities.Role;
 import com.daniel.dev.entities.User;
 import com.daniel.dev.projections.UserDetailsProjection;
@@ -47,15 +48,15 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserInsertDTO insert(UserInsertDTO userDTO){
+    public UserDTO insert(UserInsertDTO userDTO){
         User user = new User();
         copyDTOToEntity(userDTO, user);
         user.setPassword(passwordEncoder().encode(userDTO.getPassword()));
-        return new UserInsertDTO(userRepository.save(user));
+        return new UserDTO(userRepository.save(user));
     }
 
     @Transactional
-    public UserDTO update (Long id, UserDTO userDTO){
+    public UserDTO update (Long id, UserUpdateDTO userDTO){
         if(!userRepository.existsById(id)){
             throw new ResourceNotFoundException("Recurso não encontrado");
         }
