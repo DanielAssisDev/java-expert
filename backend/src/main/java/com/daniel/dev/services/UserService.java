@@ -12,6 +12,7 @@ import com.daniel.dev.repositories.UserRepository;
 import com.daniel.dev.services.exceptions.DatabaseException;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +38,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Value("${eu.sou.o.mio}")
+    String omelho;
+
     @Transactional(readOnly = true)
     public Page<UserDTO> findAll(Pageable pageable){
         return userRepository.findAll(pageable).map(UserDTO::new);
@@ -44,6 +48,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
+        System.out.println(omelho);
         return new UserDTO(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado")));
     }
 

@@ -2,7 +2,6 @@ package com.daniel.dev.entities;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
-
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;

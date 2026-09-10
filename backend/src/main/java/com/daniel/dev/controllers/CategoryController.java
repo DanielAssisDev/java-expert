@@ -30,12 +30,13 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.findAll(PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy)));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.findById(id));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CategoryDTO> insert (@RequestBody CategoryDTO categoryDTO){
         categoryDTO = categoryService.insert(categoryDTO);
@@ -44,7 +45,7 @@ public class CategoryController {
         return ResponseEntity.created(uri).body(categoryDTO);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<CategoryDTO> update (@PathVariable Long id, @RequestBody CategoryDTO categoryDTO){
         return ResponseEntity.ok(categoryService.update(id, categoryDTO));
