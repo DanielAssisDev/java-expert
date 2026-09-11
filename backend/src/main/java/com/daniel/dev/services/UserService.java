@@ -57,6 +57,7 @@ public class UserService implements UserDetailsService {
         User user = new User();
         copyDTOToEntity(userDTO, user);
         user.setPassword(passwordEncoder().encode(userDTO.getPassword()));
+        user.addRole(roleRepository.getReferenceById(1L));
         return new UserDTO(userRepository.save(user));
     }
 
@@ -88,9 +89,11 @@ public class UserService implements UserDetailsService {
         user.setEmail(userDTO.getEmail());
         user.setBirthDate(userDTO.getBirthDate());
         user.setPhone(userDTO.getPhone());
-        for(RoleDTO roleDTO : userDTO.getRoles()){
-            user.addRole(roleRepository.getReferenceById(roleDTO.getId()));
-        }
+    }
+
+    @Transactional
+    public void giveAdminPrivileges(Long id){
+        userRepository.getReferenceById(id).addRole(roleRepository.getReferenceById(2L));
     }
 
     @Override

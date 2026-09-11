@@ -59,4 +59,11 @@ public class UserController {
     public ResponseEntity<UserDTO> getMe() {
         return ResponseEntity.ok(userService.getMe());
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/giveAdmin/{id}")
+    public ResponseEntity<Void> giveAdmin (@PathVariable Long id){
+        userService.giveAdminPrivileges(id);
+        return ResponseEntity.ok().build();
+    }
 }
