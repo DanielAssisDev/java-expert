@@ -1,6 +1,7 @@
 package com.daniel.dev.controllers;
 
 import com.daniel.dev.dto.ProductDTO;
+import com.daniel.dev.dto.ProductMinDTO;
 import com.daniel.dev.factories.Factory;
 import com.daniel.dev.services.ProductService;
 import com.daniel.dev.services.exceptions.DatabaseException;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
@@ -23,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ProductController.class)
+@WebMvcTest(value = ProductController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 public class ProductControllerTests {
 
     @Autowired
@@ -38,16 +40,18 @@ public class ProductControllerTests {
     private Long id;
     private Long certainlyNonExistingId;
     private Long dependentId;
+    private ProductMinDTO productMinDTO;
     private ProductDTO productDTO;
-    private PageImpl<ProductDTO> page;
+    private PageImpl<ProductMinDTO> page;
 
     @BeforeEach
     void setUp() throws Exception {
         id = 1L;
         certainlyNonExistingId = 1000L;
         dependentId = 3L;
+        productMinDTO = Factory.createProductMinDTO();
         productDTO = Factory.createProductDTO();
-        page = new PageImpl<>(List.of(productDTO));
+        page = new PageImpl<>(List.of(productMinDTO));
         when(productService.findAll(ArgumentMatchers.any())).thenReturn(page);
         when(productService.findById(id)).thenReturn(productDTO);
         when(productService.findById(certainlyNonExistingId)).thenThrow(ResourceNotFoundException.class);

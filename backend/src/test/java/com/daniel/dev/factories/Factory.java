@@ -1,6 +1,7 @@
 package com.daniel.dev.factories;
 
 import com.daniel.dev.dto.ProductDTO;
+import com.daniel.dev.dto.ProductMinDTO;
 import com.daniel.dev.entities.Category;
 import com.daniel.dev.entities.Product;
 
@@ -9,7 +10,7 @@ import java.time.Instant;
 public class Factory {
 
     public static Product createProduct(){
-        Product product = new Product(null, "Phone", "Nice phone", 800.0, "https://australopitecus", Instant.now());
+        Product product = new Product(26L, "Phone", "Nice phone", 800.0, "https://australopitecus", Instant.now());
         product.getCategories().add(createCategory());
         return product;
     }
@@ -21,5 +22,9 @@ public class Factory {
     public static ProductDTO createProductDTO(){
         Product product = createProduct();
         return new ProductDTO(product, product.getCategories());
+    }
+
+    public static ProductMinDTO createProductMinDTO(){
+        return new ProductMinDTO(createProduct());
     }
 }

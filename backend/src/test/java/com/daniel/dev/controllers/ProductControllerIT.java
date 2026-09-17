@@ -2,6 +2,7 @@ package com.daniel.dev.controllers;
 
 import com.daniel.dev.dto.ProductDTO;
 import com.daniel.dev.factories.Factory;
+import com.daniel.dev.token.TokenUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,11 @@ public class ProductControllerIT {
     private ProductDTO productDTO;
 
     @Autowired
+    private TokenUtil tokenUtil;
+
+    private String username, password, bearerToken;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @BeforeEach
@@ -41,6 +47,9 @@ public class ProductControllerIT {
         dependentId = 2L;
         totalProducts = 25L;
         productDTO = Factory.createProductDTO();
+        username = "maria@gmail.com";
+        password = "123456";
+        bearerToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
     }
 
     @Test
@@ -48,7 +57,7 @@ public class ProductControllerIT {
         mockMvc.perform(get("/products?page=0&size=10&sort=name,asc")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.page.totalElements").value(totalProducts))
+                .andExpect(jsonPath("$.totalElements").value(totalProducts))
                 .andExpect(jsonPath("$.content").exists())
                 .andExpect(jsonPath("$.content[0].name").value("Macbook Pro"));
     }
@@ -56,6 +65,7 @@ public class ProductControllerIT {
     @Test
     public void deleteShouldReturnNoContent() throws Exception {
         mockMvc.perform(delete("/products/{id}", id)
+                        .header("Authorization", "Bearer " + bearerToken)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
@@ -64,6 +74,7 @@ public class ProductControllerIT {
     @Test
     public void updateShouldReturnProductWhenIdExists() throws Exception {
         mockMvc.perform(put("/products/{id}", id)
+                        .header("Authorization", "Bearer " + bearerToken)
                         .content(objectMapper.writeValueAsString(productDTO))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
@@ -75,10 +86,10 @@ public class ProductControllerIT {
     @Test
     public void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
         mockMvc.perform(put("/products/{id}", certainlyNonExistingId)
+                        .header("Authorization", "Bearer " + bearerToken)
                         .content(objectMapper.writeValueAsString(productDTO))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
-
 }

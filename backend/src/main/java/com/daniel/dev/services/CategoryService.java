@@ -13,14 +13,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public Page<CategoryDTO> findAll(Pageable pageable) {
-        return categoryRepository.findAll(pageable).map(CategoryDTO::new);
+    public List<CategoryDTO> findAll() {
+        return categoryRepository.findAll().stream().map(CategoryDTO::new).toList();
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

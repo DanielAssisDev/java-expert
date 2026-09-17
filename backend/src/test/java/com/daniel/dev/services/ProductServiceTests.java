@@ -1,6 +1,7 @@
 package com.daniel.dev.services;
 
 import com.daniel.dev.dto.ProductDTO;
+import com.daniel.dev.dto.ProductMinDTO;
 import com.daniel.dev.entities.Category;
 import com.daniel.dev.entities.Product;
 import com.daniel.dev.factories.Factory;
@@ -109,7 +110,7 @@ public class ProductServiceTests {
     @Test
     public void findAllPaged(){
         Pageable pageable = PageRequest.of(0, 10);
-        Page<ProductDTO> result = productService.findAll(pageable);
+        Page<ProductMinDTO> result = productService.findAll(pageable);
         Assertions.assertNotNull(result);
         Mockito.verify(productRepository, Mockito.times(1)).findAll(pageable);
     }

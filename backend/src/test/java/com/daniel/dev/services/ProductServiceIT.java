@@ -1,6 +1,6 @@
 package com.daniel.dev.services;
 
-import com.daniel.dev.dto.ProductDTO;
+import com.daniel.dev.dto.ProductMinDTO;
 import com.daniel.dev.repositories.ProductRepository;
 import com.daniel.dev.services.exceptions.DatabaseException;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
@@ -61,7 +61,7 @@ public class ProductServiceIT {
 
     @Test
     public void findAllPagedShouldReturnPageWhenPage0Size10() {
-        Page<ProductDTO> result = productService.findAll(PageRequest.of(0, 10));
+        Page<ProductMinDTO> result = productService.findAll(PageRequest.of(0, 10));
         Assertions.assertFalse(result.isEmpty());
         Assertions.assertEquals(0, result.getNumber());
         Assertions.assertEquals(10, result.getSize());
@@ -70,13 +70,13 @@ public class ProductServiceIT {
 
     @Test
     public void findAllPagedShouldReturnEmptyPageWhenPageDoesNotExist() {
-        Page<ProductDTO> result = productService.findAll(PageRequest.of(50, 10));
+        Page<ProductMinDTO> result = productService.findAll(PageRequest.of(50, 10));
         Assertions.assertTrue(result.isEmpty());
     }
 
     @Test
     public void findAllPagedShouldReturnSortedPageWhenSortByName() {
-        Page<ProductDTO> result = productService.findAll(PageRequest.of(0, 10, Sort.by("name")));
+        Page<ProductMinDTO> result = productService.findAll(PageRequest.of(0, 10, Sort.by("name")));
         Assertions.assertEquals("Macbook Pro", result.getContent().getFirst().getName());
         Assertions.assertEquals("PC Gamer", result.getContent().get(1).getName());
         Assertions.assertEquals("PC Gamer Alfa", result.getContent().get(2).getName());
