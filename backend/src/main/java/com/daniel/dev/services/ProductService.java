@@ -13,6 +13,7 @@ import com.daniel.dev.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,12 +32,17 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public Page<ProductProjection> findAll(Pageable pageable, String name, String categories) {
+    public Page<ProductDTO> findAll(Pageable pageable, String name, String categories) {
         List<Long> categoriesLong = List.of();
         if (!"0".equals(categories)) {
             categoriesLong = Arrays.stream(categories.split(",")).map(Long::parseLong).toList();
         }
-        return productRepository.searchProducts(pageable, name, categoriesLong);
+
+        Page<ProductProjection> page = productRepository.searchProducts(pageable, name.trim(), categoriesLong);
+        List<Long> productsLong = page.map(ProductProjection::getId).stream().toList();
+        return new PageImpl<>(productRepository.searchProductsWithCategories(productsLong).stream().map(p -> new ProductDTO(p, p.getCategories())).toList(),
+                page.getPageable(),
+                page.getTotalElements());
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

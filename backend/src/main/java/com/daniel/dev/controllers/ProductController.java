@@ -22,7 +22,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<Page<ProductProjection>> findAll(
+    public ResponseEntity<Page<ProductDTO>> findAll(
             Pageable pageable,
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "categories", defaultValue = "0") String categories){
