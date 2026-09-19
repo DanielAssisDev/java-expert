@@ -2,6 +2,7 @@ package com.daniel.dev.controllers;
 
 import com.daniel.dev.dto.ProductDTO;
 import com.daniel.dev.dto.ProductMinDTO;
+import com.daniel.dev.projections.ProductProjection;
 import com.daniel.dev.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,11 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<Page<ProductMinDTO>> findAll(Pageable pageable){
-        return ResponseEntity.ok(productService.findAll(pageable));
+    public ResponseEntity<Page<ProductProjection>> findAll(
+            Pageable pageable,
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "categories", defaultValue = "0") String categories){
+        return ResponseEntity.ok(productService.findAll(pageable, name, categories));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")

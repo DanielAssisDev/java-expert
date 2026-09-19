@@ -5,28 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d847c020-bb9c-416f-998f-43dffaa7db36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/token/TokenUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/controllers/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/controllers/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/dto/ProductDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/dto/ProductDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/entities/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/projections/ProductProjection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/config/ResourceServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/config/ResourceServerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/controllers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/controllers/ProductController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/repositories/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/repositories/ProductRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/CategoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/controllers/ProductControllerIT.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/controllers/ProductControllerIT.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/controllers/ProductControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/controllers/ProductControllerTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/factories/Factory.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/factories/Factory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/services/ProductServiceIT.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/services/ProductServiceIT.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/services/ProductServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/daniel/dev/services/ProductServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/import.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/import.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -50,6 +47,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.ProjetoExpertApplication.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.java in projeto-expert.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -58,7 +56,7 @@
     &quot;last_opened_file_path&quot;: &quot;/run/media/daniel/Data/materiais-nelio/java-spring-expert/projeto/dscatalog&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.ProjetoExpertApplication">
     <configuration name="ProjetoExpertApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="21" />
       <option name="MAIN_CLASS_NAME" value="com.daniel.dev.ProjetoExpertApplication" />
@@ -73,9 +71,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="java in projeto-expert" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="projeto-expert" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/backend/src/test/java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.ProjetoExpertApplication" />
+        <item itemvalue="JUnit.java in projeto-expert" />
       </list>
     </recent_temporary>
   </component>
