@@ -1,5 +1,6 @@
 package com.daniel.dev.entities;
 
+import com.daniel.dev.projections.IdProjection;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -7,7 +8,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "tb_product")
-public class Product {
+public class Product implements IdProjection<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,6 +39,7 @@ public class Product {
         this.date = date;
     }
 
+    @Override
     public Long getId() {
         return id;
     }

@@ -1,7 +1,6 @@
 package com.daniel.dev.utils;
 
-import com.daniel.dev.entities.Product;
-import com.daniel.dev.projections.ProductProjection;
+import com.daniel.dev.projections.IdProjection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,15 +9,18 @@ import java.util.Map;
 
 public class Utils {
 
-    public static List<Product> replace(List<ProductProjection> ordered, List<Product> unordered){
-        Map<Long, Product> map = new HashMap<>();
-        for(Product p : unordered){
-            map.put(p.getId(), p);
+    public static <ID> List<? extends IdProjection<ID>> replace(List<? extends IdProjection<ID>> ordered, List<? extends IdProjection<ID>> unordered) {
+
+        Map<ID, IdProjection<ID>> map = new HashMap<>();
+        for (IdProjection<ID> item : unordered) {
+            map.put(item.getId(), item);
         }
-        List<Product> result = new ArrayList<>();
-        for(ProductProjection projection : ordered){
-            result.add(map.get(projection.getId()));
+
+        List<IdProjection<ID>> result = new ArrayList<>();
+        for (IdProjection<ID> item : ordered) {
+            result.add(map.get(item.getId()));
         }
+
         return result;
     }
 }

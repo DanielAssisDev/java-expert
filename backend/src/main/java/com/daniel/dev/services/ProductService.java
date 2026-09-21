@@ -2,7 +2,6 @@ package com.daniel.dev.services;
 
 import com.daniel.dev.dto.CategoryDTO;
 import com.daniel.dev.dto.ProductDTO;
-import com.daniel.dev.dto.ProductMinDTO;
 import com.daniel.dev.entities.Category;
 import com.daniel.dev.entities.Product;
 import com.daniel.dev.projections.ProductProjection;
@@ -32,6 +31,7 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable, String name, String categories) {
         List<Long> categoriesLong = List.of();
@@ -40,9 +40,10 @@ public class ProductService {
         }
         Page<ProductProjection> page = productRepository.searchProducts(pageable, name.trim(), categoriesLong);
         List<Long> productsLong = page.map(ProductProjection::getId).stream().toList();
+        List<Product> entities = productRepository.searchProductsWithCategories(productsLong);
+        entities = (List<Product>) Utils.replace(page.getContent(), entities);
         return new PageImpl<>(
-                Utils.replace(page.getContent(), productRepository.searchProductsWithCategories(productsLong))
-                        .stream().map(p -> new ProductDTO(p, p.getCategories())).toList(),
+                entities.stream().map(p -> new ProductDTO(p, p.getCategories())).toList(),
                 page.getPageable(),
                 page.getTotalElements());
     }
