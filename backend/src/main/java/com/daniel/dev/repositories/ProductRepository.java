@@ -13,21 +13,22 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @Query(value = "SELECT p FROM Product p JOIN FETCH p.categories WHERE p.id = :id",
-            countQuery = "SELECT COUNT(p) FROM Product p JOIN p.categories")
+    @Query(value = "SELECT p FROM Product p JOIN FETCH p.categories WHERE p.id = :id")
     Optional<Product> getProductById(Long id);
 
-    @Query(value = "SELECT p FROM Product p JOIN FETCH p.categories WHERE p.id IN (:products) ORDER BY p.name")
+    @Query(value = "SELECT p FROM Product p JOIN FETCH p.categories WHERE p.id IN (:products)")
     List<Product> searchProductsWithCategories(List<Long> products);
 
     @Query(nativeQuery = true, value = """
-            SELECT DISTINCT p.id, p.name FROM tb_product p
+            SELECT * FROM (
+            SELECT DISTINCT p.id, p.name, p.price FROM tb_product p
             INNER JOIN tb_product_category pc ON p.id=pc.product_id
             WHERE (:categories IS NULL OR pc.category_id IN :categories)
-            AND LOWER(p.name) LIKE LOWER(CONCAT('%', :name ,'%')) ORDER BY p.name
+            AND LOWER(p.name) LIKE LOWER(CONCAT('%', :name ,'%')))
+            AS tb_result
             """, countQuery = """
             SELECT COUNT(*) FROM(
-            SELECT DISTINCT p.id, p.name FROM tb_product p
+            SELECT DISTINCT p.id, p.name, p.price FROM tb_product p
             INNER JOIN tb_product_category pc ON p.id=pc.product_id
             WHERE (:categories IS NULL OR pc.category_id IN :categories)
             AND LOWER(p.name) LIKE LOWER(CONCAT('%', :name ,'%'))

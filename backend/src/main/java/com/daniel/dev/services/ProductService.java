@@ -10,6 +10,7 @@ import com.daniel.dev.repositories.CategoryRepository;
 import com.daniel.dev.repositories.ProductRepository;
 import com.daniel.dev.services.exceptions.DatabaseException;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
+import com.daniel.dev.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -37,10 +38,11 @@ public class ProductService {
         if (!"0".equals(categories)) {
             categoriesLong = Arrays.stream(categories.split(",")).map(Long::parseLong).toList();
         }
-
         Page<ProductProjection> page = productRepository.searchProducts(pageable, name.trim(), categoriesLong);
         List<Long> productsLong = page.map(ProductProjection::getId).stream().toList();
-        return new PageImpl<>(productRepository.searchProductsWithCategories(productsLong).stream().map(p -> new ProductDTO(p, p.getCategories())).toList(),
+        return new PageImpl<>(
+                Utils.replace(page.getContent(), productRepository.searchProductsWithCategories(productsLong))
+                        .stream().map(p -> new ProductDTO(p, p.getCategories())).toList(),
                 page.getPageable(),
                 page.getTotalElements());
     }
