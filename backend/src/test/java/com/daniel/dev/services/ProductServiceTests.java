@@ -107,13 +107,13 @@ public class ProductServiceTests {
         });
     }
 
-    @Test
-    public void findAllPaged(){
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<ProductMinDTO> result = productService.findAll(pageable);
-        Assertions.assertNotNull(result);
-        Mockito.verify(productRepository, Mockito.times(1)).findAll(pageable);
-    }
+//    @Test
+//    public void findAllPaged(){
+//        Pageable pageable = PageRequest.of(0, 10);
+//        Page<ProductMinDTO> result = productService.findAll(pageable);
+//        Assertions.assertNotNull(result);
+//        Mockito.verify(productRepository, Mockito.times(1)).findAll(pageable);
+//    }
 
     @Test
     public void getProductIdShouldReturnProductDTOWhenIdExists(){

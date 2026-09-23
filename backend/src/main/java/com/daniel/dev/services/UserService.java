@@ -1,6 +1,5 @@
 package com.daniel.dev.services;
 
-import com.daniel.dev.dto.RoleDTO;
 import com.daniel.dev.dto.UserDTO;
 import com.daniel.dev.dto.UserInsertDTO;
 import com.daniel.dev.dto.UserUpdateDTO;
@@ -52,6 +51,7 @@ public class UserService implements UserDetailsService {
         User user = new User();
         copyDTOToEntity(userDTO, user);
         user.setPassword(passwordEncoder().encode(userDTO.getPassword()));
+        user.getRoles().clear();
         user.addRole(roleRepository.getReferenceById(1L));
         return new UserDTO(userRepository.save(user));
     }

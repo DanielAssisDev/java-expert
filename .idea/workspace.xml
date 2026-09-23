@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d847c020-bb9c-416f-998f-43dffaa7db36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/projections/IdProjection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/application-dev.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/entities/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/entities/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/projections/ProductProjection.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/projections/ProductProjection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/utils/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/dto/UserInsertDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/dto/UserInsertDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,11 +52,16 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/run/media/daniel/Data/materiais-nelio/java-spring-expert/projeto/dscatalog&quot;
+    &quot;last_opened_file_path&quot;: &quot;/run/media/daniel/Data/materiais-nelio/java-spring-expert/dscatalog/backend/src/main/resources&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/src/main/resources" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.ProjetoExpertApplication">
-    <configuration name="ProjetoExpertApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="ProjetoExpertApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="21" />
       <option name="MAIN_CLASS_NAME" value="com.daniel.dev.ProjetoExpertApplication" />
       <module name="projeto-expert" />
@@ -80,7 +85,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ProjetoExpertApplication" />
         <item itemvalue="JUnit.java in projeto-expert" />
       </list>
     </recent_temporary>
