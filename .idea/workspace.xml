@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d847c020-bb9c-416f-998f-43dffaa7db36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/application-dev.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/controllers/EmailController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/EmailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/exceptions/EmailException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/dto/UserInsertDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/dto/UserInsertDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/daniel/dev/services/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,6 +20,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Exception" />
         <option value="Class" />
       </list>
     </option>
@@ -52,7 +53,11 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/run/media/daniel/Data/materiais-nelio/java-spring-expert/dscatalog/backend/src/main/resources&quot;
+    &quot;last_opened_file_path&quot;: &quot;/run/media/daniel/Data/materiais-nelio/java-spring-expert/dscatalog/backend/src/main/resources&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -63,6 +68,10 @@
   <component name="RunManager" selected="Application.ProjetoExpertApplication">
     <configuration name="ProjetoExpertApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="21" />
+      <envs>
+        <env name="EMAIL_USERNAME" value="email@test.local" />
+        <env name="EMAIL_PASSWORD" value="1234567" />
+      </envs>
       <option name="MAIN_CLASS_NAME" value="com.daniel.dev.ProjetoExpertApplication" />
       <module name="projeto-expert" />
       <extension name="coverage">
@@ -83,6 +92,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.ProjetoExpertApplication" />
+      <item itemvalue="JUnit.java in projeto-expert" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.java in projeto-expert" />
