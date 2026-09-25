@@ -1,8 +1,10 @@
 package com.daniel.dev.controllers.handlers;
 
 import com.daniel.dev.errors.CustomErrorDTO;
+import com.daniel.dev.errors.StandardError;
 import com.daniel.dev.errors.ValidationError;
 import com.daniel.dev.services.exceptions.DatabaseException;
+import com.daniel.dev.services.exceptions.EmailException;
 import com.daniel.dev.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -37,6 +39,13 @@ public class ControllerExceptionHandler {
         for(FieldError f : e.getBindingResult().getFieldErrors()){
             err.addErrors(f.getField(), f.getDefaultMessage());
         }
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<StandardError> email(EmailException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(), status.value(), "Email Exception" , e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 }
